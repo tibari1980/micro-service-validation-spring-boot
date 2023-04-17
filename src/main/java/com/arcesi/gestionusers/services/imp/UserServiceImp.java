@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -84,15 +83,16 @@ public class UserServiceImp implements IUserService {
 		log.info("Inside methoe findUserById of UserServiceImp  code user : {}",idUser);
 		UserEntity findUser=userRepository.findById(idUser).orElseThrow(()->new EntityNotFoundException("User  id  : ` "+idUser+ " ` could not found in our data base !! ",ErrorsCodeEnumeration.USER_NOT_FOUND));
 		
+		log.info("User with code : `{}` find successfully  !!!  userEntity : {} ",idUser, findUser.toString());
 		return modelMapper.map(findUser, UserDTO.class);
 	}
 
 	@Override
 	public UserDTO findByEmail(String email) {
 		log.info("Inside methoe findUserByEmail of UserServiceImp  email : {}",email);
-		//UserEntity findUser=userRepository.findById(idUser).orElseThrow();
 		Optional<UserEntity> userEntity=userRepository.findByEmailIgnoreCase(email);
 		userEntity.orElseThrow(()->new EntityNotFoundException("User  email  : `  "+email + " ` could not found in our data base !! ",ErrorsCodeEnumeration.USER_NOT_FOUND));
+		log.info("User with email : `{}` find successfully  !!!  userEntity : {} ",email, userEntity.get().toString());
 		return modelMapper.map(userEntity.get(), UserDTO.class);
 	}
 
@@ -104,8 +104,13 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public void deleteUser(Long codeUser) {
-		// TODO Auto-generated method stub
-
+		log.info("Inside deleteUser of UserServiceImp   code User : ",codeUser);
+		UserDTO dto=findUserByid(codeUser);
+         if(dto!=null) {
+        	 userRepository.deleteById(dto.getCode());
+         }
+         log.info("User with  code  :  ` {}`  deleted successfully !!!!",codeUser);
+		
 	}
 
 	@Override
@@ -118,6 +123,7 @@ public class UserServiceImp implements IUserService {
 		Page<UserEntity> usersPage=userRepository.findByFirstNameContainingIgnoreCase(partialFirstName,pageable);
 		List<UserEntity> lstUsers=usersPage.getContent();
 		List<UserDTO> lstUserDtos=lstUsers.stream().map(user->modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+		log.info("All users  : ` {} ` find successfully withc partialFirstName : `{}`  !!! ", lstUserDtos.size(), partialFirstName);
 		return lstUserDtos;
 	}
 
@@ -130,6 +136,7 @@ public class UserServiceImp implements IUserService {
 	    	 log.error("User code unique  : `{}` not found in our data base try again",codeUnique);
 	    	 throw new EntityNotFoundException("User : ` "+codeUnique+"` not found in our data base try again ",ErrorsCodeEnumeration.USER_NOT_FOUND);
 	     }
+	     log.info("User with code unique  : ` {} ` find successfully  !!!  userEntity : {} ",codeUnique, user.get().toString());
 		return modelMapper.map(user.get(), UserDTO.class);
 	}
 

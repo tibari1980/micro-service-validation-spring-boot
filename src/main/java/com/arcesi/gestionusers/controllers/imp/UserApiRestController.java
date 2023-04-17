@@ -100,4 +100,15 @@ public class UserApiRestController implements IUserApiRest {
 			return new ResponseEntity<UserResponse>(modelMapper.map(dto, UserResponse.class),HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<Object> deleteUser(String codeUser) {
+		 log.info("Inside methode deleteUser of UserApiRestController  id : {} ",codeUser);
+		    if(StringUtils.isBlank(codeUser)) {
+		    	log.error("User id : ` {} `  is not valid try again ",codeUser);
+		    	throw new InvalidEntityException("Code user : ` "+ codeUser +"`  is not valid try again", ErrorsCodeEnumeration.USER_PARAM_ID_USER_NOT_VALID);
+		    }
+		    iUserService.deleteUser(Long.parseLong(codeUser) );
+		    return new ResponseEntity<Object>("User  with  : ` "+codeUser+" ` Deleted successfully", HttpStatus.NO_CONTENT);
+	}
+
 }

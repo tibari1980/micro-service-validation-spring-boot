@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
 	Optional<UserEntity> findByCodeUniqueIgnoreCase(String codeUnique);
 
+	void findByCode(Long codeUser);
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,4 +40,7 @@ public interface IUserApiRest {
 
 	@GetMapping(value="findUserByEmail/{email}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponse> getUserByEmail(@PathVariable(name="email") final String email);
+	
+	@DeleteMapping(value="{codeUser}")
+	public ResponseEntity<Object> deleteUser(@PathVariable(name="codeUser") String codeUser);
 }
