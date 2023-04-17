@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arcesi.gestionusers.controllers.IUserApiRest;
 import com.arcesi.gestionusers.dtos.UserDTO;
+import com.arcesi.gestionusers.enums.ErrorsCodeEnumeration;
 import com.arcesi.gestionusers.exceptions.InvalidEntityException;
 import com.arcesi.gestionusers.requests.UserRequest;
 import com.arcesi.gestionusers.responses.UserResponse;
@@ -64,6 +65,17 @@ public class UserApiRestController implements IUserApiRest {
 		UserDTO userDto=iUserService.updateUser(userDTO, Long.parseLong(idUser));
 		
 		return new ResponseEntity<UserResponse>(modelMapper.map(userDto, UserResponse.class),HttpStatus.ACCEPTED);
+	}
+
+	@Override
+	public ResponseEntity<UserResponse> getUserById(String codeUser) {
+		log.info("Inside methode getUserById of UserApiRestController  code user : {} ",codeUser);
+		if(StringUtils.isBlank(codeUser) || !StringUtils.isNumeric(codeUser)) {
+			log.error("Code user : `{}` is not valid try again ",codeUser);
+			throw new InvalidEntityException("Code user : `"+codeUser+"` is not valid try again !",ErrorsCodeEnumeration.USER_PARAM_ID_USER_NOT_VALID);
+		}
+		UserDTO userDto=iUserService.findUserByid(Long.parseLong(codeUser));
+		return new ResponseEntity<UserResponse>(modelMapper.map(userDto, UserResponse.class),HttpStatus.OK);
 	}
 
 }

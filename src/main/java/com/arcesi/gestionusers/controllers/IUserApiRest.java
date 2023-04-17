@@ -28,4 +28,8 @@ public interface IUserApiRest {
 	@PutMapping(value = "{idUser}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest,
 			@PathVariable("idUser") String idUser);
+
+
+	@GetMapping(value="findUserById/{codeUser}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserResponse> getUserById(@PathVariable(name = "codeUser") String codeUser);
 }

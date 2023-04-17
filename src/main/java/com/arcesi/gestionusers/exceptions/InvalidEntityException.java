@@ -36,4 +36,8 @@ public class InvalidEntityException extends RuntimeException {
 		this.lstErrors = errors;
 	}
 
+	public InvalidEntityException(String message, ErrorsCodeEnumeration errosEnum) {
+		super(message);
+		this.errorEnum = errosEnum;
+	}
 }

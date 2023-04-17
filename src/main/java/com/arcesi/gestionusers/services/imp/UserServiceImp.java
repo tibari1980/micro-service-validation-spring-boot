@@ -81,8 +81,10 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public UserDTO findUserByid(Long idUser) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Inside methoe findUserById of UserServiceImp  code user : {}",idUser);
+		UserEntity findUser=userRepository.findById(idUser).orElseThrow(()->new EntityNotFoundException("User  id  : ` "+idUser+ " ` could not found in our data base !! ",ErrorsCodeEnumeration.USER_NOT_FOUND));
+		
+		return modelMapper.map(findUser, UserDTO.class);
 	}
 
 	@Override
