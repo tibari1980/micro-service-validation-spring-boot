@@ -89,8 +89,11 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public UserDTO findByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Inside methoe findUserByEmail of UserServiceImp  email : {}",email);
+		//UserEntity findUser=userRepository.findById(idUser).orElseThrow();
+		Optional<UserEntity> userEntity=userRepository.findByEmailIgnoreCase(email);
+		userEntity.orElseThrow(()->new EntityNotFoundException("User  email  : `  "+email + " ` could not found in our data base !! ",ErrorsCodeEnumeration.USER_NOT_FOUND));
+		return modelMapper.map(userEntity.get(), UserDTO.class);
 	}
 
 	@Override

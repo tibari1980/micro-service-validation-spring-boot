@@ -35,4 +35,8 @@ public interface IUserApiRest {
 	
 	@GetMapping(value="findUserByCodeUnique/{codeUnique}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponse> getUserByCodeUnique(@PathVariable(name="codeUnique") final String codeUnique);
+
+
+	@GetMapping(value="findUserByEmail/{email}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserResponse> getUserByEmail(@PathVariable(name="email") final String email);
 }
