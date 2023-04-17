@@ -1,5 +1,7 @@
 package com.arcesi.gestionusers.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +15,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 	Page<UserEntity> findByFirstNameContainingIgnoreCase(String patialFirstName, Pageable pageable);
 
 	UserEntity findByEmailIgnoreCase(String trim);
+
+	Optional<UserEntity> findByCodeUniqueIgnoreCase(String codeUnique);
 
 }

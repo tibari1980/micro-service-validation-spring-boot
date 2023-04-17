@@ -118,4 +118,16 @@ public class UserServiceImp implements IUserService {
 		return lstUserDtos;
 	}
 
+	@Override
+	public UserDTO findUserByCodeUnique(String codeUnique) {
+	     log.info("Inside methode findUserByCodeUnique of UserServiceImp : code unique : {}",codeUnique);
+	     
+	     Optional<UserEntity> user=userRepository.findByCodeUniqueIgnoreCase(codeUnique);
+	     if(!user.isPresent()) {
+	    	 log.error("User code unique  : `{}` not found in our data base try again",codeUnique);
+	    	 throw new EntityNotFoundException("User : ` "+codeUnique+"` not found in our data base try again ",ErrorsCodeEnumeration.USER_NOT_FOUND);
+	     }
+		return modelMapper.map(user.get(), UserDTO.class);
+	}
+
 }

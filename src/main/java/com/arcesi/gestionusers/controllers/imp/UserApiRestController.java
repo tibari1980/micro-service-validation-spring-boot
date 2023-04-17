@@ -78,4 +78,15 @@ public class UserApiRestController implements IUserApiRest {
 		return new ResponseEntity<UserResponse>(modelMapper.map(userDto, UserResponse.class),HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<UserResponse> getUserByCodeUnique(String codeUnique) {
+	    log.info("Inside methode getUserByCodeUnique  code unique  : {} ",codeUnique);
+	    if(StringUtils.isBlank(codeUnique)) {
+	    	log.error("User coe unique : ` {} `  is not valid try again ",codeUnique);
+	    	throw new InvalidEntityException("Code unique : ` "+ codeUnique +"`  is not valide try again", ErrorsCodeEnumeration.USER_PARAM_ID_USER_NOT_VALID);
+	    }
+	    UserDTO dto=iUserService.findUserByCodeUnique(codeUnique);
+		return new ResponseEntity<UserResponse>(modelMapper.map(dto, UserResponse.class),HttpStatus.OK);
+	}
+
 }

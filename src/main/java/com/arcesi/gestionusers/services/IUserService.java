@@ -14,4 +14,5 @@ public interface IUserService {
 	public void deleteUser(final Long codeUser);
  
 	public List<UserDTO> findAllUserByFirstName(final String patialFirstName,final  int page,final int limit);
+	public UserDTO findUserByCodeUnique(String codeUnique);
 }

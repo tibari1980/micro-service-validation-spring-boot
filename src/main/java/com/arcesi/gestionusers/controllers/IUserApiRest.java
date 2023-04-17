@@ -32,4 +32,7 @@ public interface IUserApiRest {
 
 	@GetMapping(value="findUserById/{codeUser}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponse> getUserById(@PathVariable(name = "codeUser") String codeUser);
+	
+	@GetMapping(value="findUserByCodeUnique/{codeUnique}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserResponse> getUserByCodeUnique(@PathVariable(name="codeUnique") final String codeUnique);
 }
